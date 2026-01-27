@@ -1,0 +1,7 @@
+label: "Kinoite-Live"
+grub2:
+  timeout: 10
+  entries:
+    - name: "Kinoite Live ISO"
+      linux: "/boot/vmlinuz quiet rhgb root=live:CDLABEL=Kinoite-Live enforcing=0 rd.live.image"
+      initrd: "/boot/initramfs.img"
