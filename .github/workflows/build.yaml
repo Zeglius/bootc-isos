@@ -17,6 +17,14 @@ jobs:
       - name: Free disk space
         uses: jlumbroso/free-disk-space@main
 
+      # Some runners have a large /, some of them have an extra /mnt with ~60GiB free space.
+      # This action loop-mounts /var/lib/containers to the larger /mnt if available.
+      - name: Mount BTRFS for podman storage
+        uses: ublue-os/container-storage-action@911baca08baf30c8654933e9e9723cb399892140
+        with:
+          target-dir: /var/lib/containers
+          mount-opts: compress=zstd:1
+
       - name: Checkout repository
         uses: actions/checkout@v6
 
