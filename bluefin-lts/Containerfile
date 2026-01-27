@@ -1,0 +1,5 @@
+# run with --cap-add sys_admin --security-opt label=disable
+
+FROM ghcr.io/ublue-os/bluefin:lts
+
+RUN --mount=type=bind,source=src,target=/src /src/build.sh

@@ -12,6 +12,7 @@ jobs:
         container:
           - bazzite
           - kinoite
+          - bluefin-lts
 
     steps:
       - name: Free disk space
