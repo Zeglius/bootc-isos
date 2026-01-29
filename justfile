@@ -1,11 +1,15 @@
 image-builder := "image-builder"
 image-builder-dev := "image-builder-dev"
 
+# Helper: returns "--bootc-installer-payload-ref <ref>" or "" if no payload_ref file
+_payload_ref_flag target:
+    @echo '{{ if path_exists(target / "payload_ref") { "--bootc-installer-payload-ref " + trim(read(target / "payload_ref")) } else { "" } }}'
+
 container target:
     podman build --cap-add sys_admin --security-opt label=disable -t {{target}}-installer ./{{target}}
 
 iso target:
-    {{image-builder}} build --bootc-ref localhost/{{target}}-installer --bootc-default-fs ext4 bootc-generic-iso
+    {{image-builder}} build --bootc-ref localhost/{{target}}-installer --bootc-default-fs ext4 `just _payload_ref_flag {{target}}` bootc-generic-iso
 
 # We need some patches that are not yet available upstream, so let's build a custom version.
 build-image-builder:
@@ -31,4 +35,4 @@ iso-in-container target:
         -v /var/lib/containers/storage:/var/lib/containers/storage \
         -v ./output:/output:Z \
         {{image-builder-dev}} \
-        build --output-dir /output --bootc-ref localhost/{{target}}-installer --bootc-default-fs ext4 bootc-generic-iso
+        build --output-dir /output --bootc-ref localhost/{{target}}-installer --bootc-default-fs ext4 `just _payload_ref_flag {{target}}` bootc-generic-iso
