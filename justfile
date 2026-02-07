@@ -18,7 +18,8 @@ build-image-builder:
     if [ -d image-builder-cli ]; then
         cd image-builder-cli
         git fetch origin
-        git reset --hard origin/main
+        # git reset --hard origin/main
+        git reset --hard cf20ed6a417c5e4dd195b34967cd2e4d5dc7272f
     else
         git clone https://github.com/osbuild/image-builder-cli.git
         cd image-builder-cli
