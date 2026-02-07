@@ -31,11 +31,6 @@ jobs:
         with:
           tool-cache: true
 
-      # Some runners have a large /, some of them have an extra /mnt with ~60GiB free space.
-      # This action loop-mounts /var/lib/containers to the larger /mnt if available.
-      - name: Mount BTRFS for podman storage
-        run: bash .github/scripts/mount_btrfs.sh
-
       - name: Install just and golang
         run: sudo apt update && sudo apt install -y just golang && sudo apt clean
 
